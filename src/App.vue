@@ -30,8 +30,8 @@
             <router-link to="/messages" class="navbar-item button is-1"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>Messages</strong></p></router-link>
             <router-link to="/addStudent" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>Add Student</strong></p></router-link>
             <router-link to="/addParent" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>Add Parent</strong></p></router-link>
+            <router-link to="/addGuidance" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>Add Guidance</strong></p></router-link>
             <router-link to="/addUser" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>Add User</strong></p></router-link>
-            <router-link to="/addAdmin" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>Add Admin</strong></p></router-link>
             <router-link to="/viewStudents" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>View Students</strong></p></router-link>
             <router-link to="/guidanceReport" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>Post Guidance Report</strong></p></router-link>
             <router-link to="/viewSummary" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>View Summary Report</strong></p></router-link>

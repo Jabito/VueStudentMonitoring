@@ -3,13 +3,14 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import Login from './components/Login'
 
 Vue.config.productionTip = false
-
+Vue.prototype.$endpoint = 'http://localhost:8085/vue'
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  components: { App },
-  template: '<App/>'
+  components: {Login},
+  template: '<Login/>'
 })
