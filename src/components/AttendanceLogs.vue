@@ -14,8 +14,11 @@
       </thead>
       <tbody>
       <tr v-for="entry in attendanceLog">
-        <td v-for="key in columns">
-          {{entry[key]}}
+        <td>
+          {{entry.firstName}}
+        </td>
+        <td>
+          {{entry.lastName}}
         </td>
       </tr>
       </tbody>
@@ -24,6 +27,8 @@
 </template>
 
 <script>
+  import axios from 'axios'
+
   export default {
     name: "AttendanceLogs",
     props: {
@@ -31,16 +36,18 @@
       columns: Array,
       filterKey: String
     },
+    created() {
+      this.getAttendanceList('')
+    },
     data: function () {
       var sortOrders = {}
-      this.columns.forEach(function (key) {
-        sortOrders[key] = 1
-      })
+      // this.columns.forEach(function (key) {
+      //   sortOrders[key] = 1
+      // })
       return {
         sortKey: '',
         sortOrders: sortOrders,
-        columns: [],
-        filterKey: ''
+        attendanceLog: []
       }
     },
     computed: {
@@ -75,6 +82,21 @@
       sortBy: function (key) {
         this.sortKey = key
         this.sortOrders[key] = this.sortOrders[key] * -1
+      },
+      getAttendanceList: function (id) {
+        axios.get(this.$endpoint + '/getAttendanceLogsDetails', {
+          params: {
+            studId: id
+          },
+          headers: {
+            "content-type": "application/x-www-form-urlencoded"
+          }
+        }).then(response => {
+          console.log('response', response)
+          this.attendanceLog = response.data
+        }).catch(e => {
+
+        })
       }
     }
   }

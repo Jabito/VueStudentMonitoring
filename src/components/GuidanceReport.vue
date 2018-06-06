@@ -1,13 +1,15 @@
 <template>
-    <div>
-      Guidance Report
-    </div>
+  <div>
+    Guidance Report
+  </div>
 </template>
 
 <script>
-    export default {
-        name: "GuidanceReport"
-    }
+  import axios from 'axios'
+
+  export default {
+    name: "GuidanceReport"
+  }
 </script>
 
 <style scoped>

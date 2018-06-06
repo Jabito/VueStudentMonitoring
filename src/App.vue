@@ -77,10 +77,10 @@
                       <input class="input is-large" type="password" v-model="password" placeholder="Your Password">
                     </div>
                   </div>
-                  <div v-if="this.errorName">
+                  <div style="color: red" v-if="this.errorName">
                     <p>Username not found.</p>
                   </div>
-                  <div v-if="this.errorPass">
+                  <div style="color: red" v-if="this.errorPass">
                     <p>Password is invalid. Please try again.</p>
                   </div>
                   <button class="navbar-item button is-block is-info is-large is-fullwidth" v-on:click="login">Login
