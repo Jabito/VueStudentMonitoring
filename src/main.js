@@ -11,6 +11,6 @@ Vue.prototype.$endpoint = 'http://localhost:8085/vue'
 new Vue({
   el: '#app',
   router,
-  components: {Login},
-  template: '<Login/>'
+  components: {App},
+  template: '<App/>'
 })

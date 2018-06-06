@@ -45,6 +45,12 @@
 
   export default {
     name: 'Login',
+    data(){
+      return {
+        username: '',
+        password: ''
+      };
+    },
     methods: {
       login: function () {
         axios.get(this.$endpoint + '/login', {
