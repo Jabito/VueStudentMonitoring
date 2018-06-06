@@ -1,67 +1,155 @@
 <template>
   <div>
-    <section class="hero is-link">
-      <div class="hero-body is-paddingless">
-        <div class="container is-marginless">
-          <div class="columns">
-            <div class="column is-one-fifth">
-              <img src="../static/images/school_logo.png" width="150"/>
-            </div>
-            <div class="column is-three-fifths">
-              <h1 class="title">
-                St. Mark's Institute Las Pinas
-              </h1>
-            </div>
-            <div class="column is-one-fifth">
-              <h1 class="title">
-                Logged in as
-              </h1>
+    <div v-if="this.authorized">
+      <section class="hero is-link">
+        <div class="hero-body is-paddingless">
+          <div class="container is-marginless">
+            <div class="columns">
+              <div class="column is-one-fifth">
+                <img src="../static/images/school_logo.png" width="150"/>
+              </div>
+              <div class="column is-three-fifths">
+                <h1 class="title">
+                  St. Mark's Institute Las Pinas
+                </h1>
+              </div>
+              <div class="column is-one-fifth">
+                <h1 class="title">
+                  Logged in as
+                </h1>
+              </div>
             </div>
           </div>
         </div>
+      </section>
+      <div class="columns">
+        <div class="column is-one-fifth">
+          <nav class="navbar" role="navigation" aria-label="navigation">
+            <div class="column">
+              <router-link to="/dashboard" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Homepage</strong></p></router-link>
+              <router-link to="/attendance" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Attendance Logs</strong></p></router-link>
+              <router-link to="/messages" class="navbar-item button is-1"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Messages</strong></p></router-link>
+              <router-link to="/addStudent" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Add Student</strong></p></router-link>
+              <router-link to="/addParent" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Add Parent</strong></p></router-link>
+              <router-link to="/addGuidance" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Add Guidance</strong></p></router-link>
+              <router-link to="/addUser" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Add User</strong></p></router-link>
+              <router-link to="/viewStudents" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>View Students</strong></p></router-link>
+              <router-link to="/guidanceReport" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Post Guidance Report</strong></p></router-link>
+              <router-link to="/viewSummary" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>View Summary Report</strong></p></router-link>
+              <button v-on:click="logout" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Logout</strong></p></button>
+            </div>
+          </nav>
+        </div>
+        <div class="column is-four-fifths">
+          <router-view/>
+        </div>
       </div>
-    </section>
-    <div class="columns">
-      <div class="column is-one-fifth">
-        <nav class="navbar" role="navigation" aria-label="navigation">
-          <div class="column">
-            <router-link to="/dashboard" class="navbar-item button"><i class="fas fa-shield-alt"/>
-              <p style="color: #44F;"><strong>Homepage</strong></p></router-link>
-            <router-link to="/attendance" class="navbar-item button"><i class="fas fa-shield-alt"/>
-              <p style="color: #44F;"><strong>Attendance Logs</strong></p></router-link>
-            <router-link to="/messages" class="navbar-item button is-1"><i class="fas fa-shield-alt"/>
-              <p style="color: #44F;"><strong>Messages</strong></p></router-link>
-            <router-link to="/addStudent" class="navbar-item button"><i class="fas fa-shield-alt"/>
-              <p style="color: #44F;"><strong>Add Student</strong></p></router-link>
-            <router-link to="/addParent" class="navbar-item button"><i class="fas fa-shield-alt"/>
-              <p style="color: #44F;"><strong>Add Parent</strong></p></router-link>
-            <router-link to="/addGuidance" class="navbar-item button"><i class="fas fa-shield-alt"/>
-              <p style="color: #44F;"><strong>Add Guidance</strong></p></router-link>
-            <router-link to="/addUser" class="navbar-item button"><i class="fas fa-shield-alt"/>
-              <p style="color: #44F;"><strong>Add User</strong></p></router-link>
-            <router-link to="/viewStudents" class="navbar-item button"><i class="fas fa-shield-alt"/>
-              <p style="color: #44F;"><strong>View Students</strong></p></router-link>
-            <router-link to="/guidanceReport" class="navbar-item button"><i class="fas fa-shield-alt"/>
-              <p style="color: #44F;"><strong>Post Guidance Report</strong></p></router-link>
-            <router-link to="/viewSummary" class="navbar-item button"><i class="fas fa-shield-alt"/>
-              <p style="color: #44F;"><strong>View Summary Report</strong></p></router-link>
-            <router-link to="/login" class="navbar-item button"><i class="fas fa-shield-alt"/>
-              <p style="color: #44F;"><strong>Logout</strong></p></router-link>
+    </div>
+    <div v-else>
+      <section class="hero is-fullheight">
+        <div class="hero-body">
+          <div class="container has-text-centered">
+            <div class="column is-4 is-offset-4">
+              <p class="subtitle has-text-grey">Please login to proceed.</p>
+              <div class="box">
+                <figure class="avatar">
+                  <img src="../static/images/school_logo.png" width="250"/>
+                </figure>
+                <form>
+                  <div class="field">
+                    <div class="control">
+                      <input class="input is-large" type="text" v-model="username" placeholder="Username" autofocus="">
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="control">
+                      <input class="input is-large" type="password" v-model="password" placeholder="Your Password">
+                    </div>
+                  </div>
+                  <div v-if="this.errorName">
+                    <p>Username not found.</p>
+                  </div>
+                  <div v-if="this.errorPass">
+                    <p>Password is invalid. Please try again.</p>
+                  </div>
+                  <button class="navbar-item button is-block is-info is-large is-fullwidth" v-on:click="login">Login
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
-        </nav>
-      </div>
-      <div class="column is-four-fifths">
-        <router-view/>
-      </div>
+        </div>
+      </section>
     </div>
   </div>
 </template>
 
 <script>
+  import axios from 'axios'
+  import router from './router'
+
   export default {
     name: 'App',
-    created() {
-      console.log('App ', this)
+    data() {
+      return {
+        username: '',
+        password: '',
+        errorName: false,
+        errorPass: false,
+        authorized: false
+      };
+    },
+    methods: {
+      login: function () {
+        this.clearErrors()
+        axios.get(this.$endpoint + '/login', {
+          params: {
+            username: this.username,
+            password: this.password
+          },
+          headers:
+            {
+              "content-type": "application/x-www-form-urlencoded"
+            }
+        })
+          .then(response => {
+            switch (response.data.responseCode) {
+              case "OK":
+                console.log('LOGIN', this)
+                router.push('/dashboard')
+                console.log(this)
+                this.authorized = true
+                break;
+              case 404:
+                this.errorName = true
+                break
+              case 201:
+                this.errorPass = true
+                break
+            }
+          })
+          .catch(e => {
+            console.log(e)
+          })
+      },
+      logout: function(){
+        this.authorized = false
+      },
+      clearErrors: function () {
+        this.errorName = false
+        this.errorPass = false
+      }
     }
   }
 </script>

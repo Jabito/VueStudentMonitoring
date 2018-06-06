@@ -13,7 +13,6 @@ import AddUser from '../components/AddUser'
 import ViewStudents from '../components/ViewStudents'
 import ViewSummary from '../components/ViewSummary'
 import GuidanceReport from '../components/GuidanceReport'
-import Login from '../components/Login'
 
 Vue.use(Router)
 Vue.use(Buefy)
