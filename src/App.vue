@@ -46,7 +46,7 @@
                 <p style="color: #44F;"><strong>Post Guidance Report</strong></p></router-link>
               <router-link to="/viewSummary" class="navbar-item button"><i class="fas fa-shield-alt"/>
                 <p style="color: #44F;"><strong>View Summary Report</strong></p></router-link>
-              <button v-on:click="logout" class="navbar-item button"><i class="fas fa-shield-alt"/>
+              <button v-on:click="logout" class="navbar-item button is-fullwidth"><i class="fas fa-shield-alt"/>
                 <p style="color: #44F;"><strong>Logout</strong></p></button>
             </div>
           </nav>
@@ -101,6 +101,10 @@
 
   export default {
     name: 'App',
+    created(){
+      this.authorized = localStorage.getItem('authorized') == 'true'
+      console.log(this.authorized)
+    },
     data() {
       return {
         username: '',
@@ -130,6 +134,7 @@
                 router.push('/dashboard')
                 console.log(this)
                 this.authorized = true
+                localStorage.setItem('authorized', true)
                 break;
               case 404:
                 this.errorName = true
@@ -145,6 +150,7 @@
       },
       logout: function(){
         this.authorized = false
+        localStorage.setItem('authorized', false)
       },
       clearErrors: function () {
         this.errorName = false
