@@ -15,18 +15,17 @@
                     <input class="input is-large" type="text" v-model="username" placeholder="Username" autofocus="">
                   </div>
                 </div>
-
                 <div class="field">
                   <div class="control">
                     <input class="input is-large" type="password" v-model="password" placeholder="Your Password">
                   </div>
                 </div>
-                <!--<div class="field">-->
-                <!--<label class="checkbox">-->
-                <!--<input type="checkbox">-->
-                <!--Remember me-->
-                <!--</label>-->
-                <!--</div>-->
+                <div v-if="this.errorName">
+                  <p>Username not found.</p>
+                </div>
+                <div v-if="this.errorPass">
+                  <p>Password is invalid. Please try again.</p>
+                </div>
                 <button class="navbar-item button is-block is-info is-large is-fullwidth" v-on:click="login">Login
                 </button>
               </form>
@@ -45,14 +44,18 @@
 
   export default {
     name: 'Login',
-    data(){
+    data() {
       return {
         username: '',
-        password: ''
+        password: '',
+        errorName: false,
+        errorPass: false,
+        authorized: false
       };
     },
     methods: {
       login: function () {
+        this.clearErrors()
         axios.get(this.$endpoint + '/login', {
           params: {
             username: this.username,
@@ -64,21 +67,39 @@
             }
         })
           .then(response => {
-            console.log(response)
-            if(response.data.responseCode != 0){
-              console.log('In')
-              this.$router.push('/')
+            switch (response.data.responseCode) {
+              case "OK":
+                console.log(this.$parent)
+                this.$parent.$parent.$authorized = true
+                // router.go('/dashboard')
+                break;
+              case 404:
+                this.errorName = true
+                break
+              case 201:
+                this.errorPass = true
+                break
             }
           })
           .catch(e => {
             console.log(e)
           })
-        console.log('clicked.')
+      },
+      clearErrors: function(){
+        this.errorName = false
+        this.errorPass = false
       }
     }
   }
 </script>
 
 <style scoped>
-
+  #login {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+  }
 </style>

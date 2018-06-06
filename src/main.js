@@ -7,6 +7,8 @@ import Login from './components/Login'
 
 Vue.config.productionTip = false
 Vue.prototype.$endpoint = 'http://localhost:8085/vue'
+Vue.prototype.$authorized = false
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -14,3 +16,4 @@ new Vue({
   components: {App},
   template: '<App/>'
 })
+

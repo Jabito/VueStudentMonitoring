@@ -21,11 +21,6 @@ Vue.use(Buefy)
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'App',
-      component: App
-    },
-    {
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard
@@ -74,12 +69,6 @@ export default new Router({
       path: '/guidanceReport',
       name: 'GuidanceReport',
       component: GuidanceReport
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login
     }
-
   ]
 })

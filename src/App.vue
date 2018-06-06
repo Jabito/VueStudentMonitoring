@@ -25,17 +25,28 @@
       <div class="column is-one-fifth">
         <nav class="navbar" role="navigation" aria-label="navigation">
           <div class="column">
-            <router-link to="/dashboard" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>Homepage</strong></p></router-link>
-            <router-link to="/attendance" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>Attendance Logs</strong></p></router-link>
-            <router-link to="/messages" class="navbar-item button is-1"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>Messages</strong></p></router-link>
-            <router-link to="/addStudent" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>Add Student</strong></p></router-link>
-            <router-link to="/addParent" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>Add Parent</strong></p></router-link>
-            <router-link to="/addGuidance" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>Add Guidance</strong></p></router-link>
-            <router-link to="/addUser" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>Add User</strong></p></router-link>
-            <router-link to="/viewStudents" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>View Students</strong></p></router-link>
-            <router-link to="/guidanceReport" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>Post Guidance Report</strong></p></router-link>
-            <router-link to="/viewSummary" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>View Summary Report</strong></p></router-link>
-            <router-link to="/login" class="navbar-item button"><i class="fas fa-shield-alt"/> <p style="color: #44F;"><strong>Logout</strong></p></router-link>
+            <router-link to="/dashboard" class="navbar-item button"><i class="fas fa-shield-alt"/>
+              <p style="color: #44F;"><strong>Homepage</strong></p></router-link>
+            <router-link to="/attendance" class="navbar-item button"><i class="fas fa-shield-alt"/>
+              <p style="color: #44F;"><strong>Attendance Logs</strong></p></router-link>
+            <router-link to="/messages" class="navbar-item button is-1"><i class="fas fa-shield-alt"/>
+              <p style="color: #44F;"><strong>Messages</strong></p></router-link>
+            <router-link to="/addStudent" class="navbar-item button"><i class="fas fa-shield-alt"/>
+              <p style="color: #44F;"><strong>Add Student</strong></p></router-link>
+            <router-link to="/addParent" class="navbar-item button"><i class="fas fa-shield-alt"/>
+              <p style="color: #44F;"><strong>Add Parent</strong></p></router-link>
+            <router-link to="/addGuidance" class="navbar-item button"><i class="fas fa-shield-alt"/>
+              <p style="color: #44F;"><strong>Add Guidance</strong></p></router-link>
+            <router-link to="/addUser" class="navbar-item button"><i class="fas fa-shield-alt"/>
+              <p style="color: #44F;"><strong>Add User</strong></p></router-link>
+            <router-link to="/viewStudents" class="navbar-item button"><i class="fas fa-shield-alt"/>
+              <p style="color: #44F;"><strong>View Students</strong></p></router-link>
+            <router-link to="/guidanceReport" class="navbar-item button"><i class="fas fa-shield-alt"/>
+              <p style="color: #44F;"><strong>Post Guidance Report</strong></p></router-link>
+            <router-link to="/viewSummary" class="navbar-item button"><i class="fas fa-shield-alt"/>
+              <p style="color: #44F;"><strong>View Summary Report</strong></p></router-link>
+            <router-link to="/login" class="navbar-item button"><i class="fas fa-shield-alt"/>
+              <p style="color: #44F;"><strong>Logout</strong></p></router-link>
           </div>
         </nav>
       </div>
@@ -48,7 +59,10 @@
 
 <script>
   export default {
-    name: 'App'
+    name: 'App',
+    created() {
+      console.log('App ', this)
+    }
   }
 </script>
 
