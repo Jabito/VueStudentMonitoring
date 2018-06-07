@@ -24,19 +24,19 @@
         <div class="field">
           <label class="label">Citizenship</label>
           <div class="control">
-            <input class="input" type="text" placeholder="Citizenship">
+            <input class="input" v-model="citizenship" type="text" placeholder="Citizenship">
           </div>
         </div>
         <div class="field">
           <label class="label">Address</label>
           <div class="control">
-            <input class="input" type="text" placeholder="Address">
+            <input class="input" v-model="address" type="text" placeholder="Address">
           </div>
         </div>
         <div class="field">
           <label class="label">Contact No</label>
           <div class="control">
-            <input class="input" type="text" placeholder="Contact No">
+            <input class="input" v-model="contact" type="text" placeholder="Contact No">
           </div>
         </div>
 
@@ -45,6 +45,7 @@
         <div class="field">
           <b-field label="Birth Date">
             <b-datepicker
+              v-model="bday"
               placeholder="Click to select..."
               icon="calendar-today">
             </b-datepicker>
@@ -53,18 +54,18 @@
         <div class="field">
           <label class="label">Gender</label>
           <div class="control">
-            Male <input type="radio" v-model="gender" name="gender"/>
-            Female <input type="radio" v-model="gender" name="gender"/>
+            Male <input type="radio" value="1" v-model="gender" name="gender"/>
+            Female <input type="radio" value="0" v-model="gender" name="gender"/>
           </div>
         </div>
         <b-field label="Grade Level">
-          <b-select v-model="gradeLevel" placeholder="Select Grade Level" required>
-            <option value="flint">Flint</option>
-            <option value="silver">Silver</option>
+          <b-select v-model="gradeLevelId" placeholder="Select Grade Level"
+                    required>
+            <option v-for="gradeLvl in this.gradeLvls" value="gradeLvl.id">{{gradeLvl.gradeLevel}}</option>
           </b-select>
         </b-field>
         <b-field label="Section">
-          <b-select v-model="section" placeholder="Select Section" required>
+          <b-select v-model="sectionId" placeholder="Select Section" required>
             <option value="flint">Flint</option>
             <option value="silver">Silver</option>
           </b-select>
@@ -82,23 +83,60 @@
 </template>
 
 <script>
+  import axios from 'axios'
+
   export default {
     name: "AddStudent",
-    data(){
+    data() {
       return {
         firstName: '',
         lastName: '',
         middleInitial: '',
-        gradeLevel: '',
+        gradeLevelId: '',
+        sectionId: '',
         gender: '',
         section: '',
-        rfid: ''
+        citizenship: '',
+        bday: new Date(),
+        address: '',
+        contact: '',
+        rfid: '',
+        gradeLvls: []
       }
     },
+    created() {
+      this.getGradeLvls()
+    },
     methods: {
-      saveStudent: function() {
-        console.log(this.firstName + ' ' + this.lastName);
-        console.log(this.data())
+      saveStudent: function () {
+        let object = {
+          firstName: this.firstName,
+          lastNAme: this.lastNAme,
+          middleName: this.middleInitial,
+          gradeLevelId: this.gradeLevelId,
+          sectionId: this.sectionId,
+          gender: this.gender,
+          citizenship: this.citizenship,
+          address: this.address,
+          contactNo: this.contactNo,
+          rfid: this.rfid,
+          appUsername: 'admin1'
+        }
+        JSON.stringify(object)
+        axios.post(this.$endpoint + '/addStudent',  object)
+      },
+      getGradeLvls: function () {
+        axios.get(this.$endpoint + '/getGradeLevels', {})
+          .then(response => {
+            console.log('GradeLvls', response.data.gradeLvls)
+            this.gradeLvls = response.data.gradeLvls
+          }).catch(e => {
+          this.$toast.open({
+            duration: 3000,
+            message: `Server Error. Please be patient and try again.`,
+            type: 'is-danger'
+          })
+        })
       }
     }
   }

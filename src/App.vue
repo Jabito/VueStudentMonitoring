@@ -77,11 +77,8 @@
                       <input class="input is-large" type="password" v-model="password" placeholder="Your Password">
                     </div>
                   </div>
-                  <div style="color: red" v-if="this.errorName">
-                    <p>Username not found.</p>
-                  </div>
-                  <div style="color: red" v-if="this.errorPass">
-                    <p>Password is invalid. Please try again.</p>
+                  <div style="color: red" v-if="this.error">
+                    {{ this.errorMsg}}
                   </div>
                   <button class="navbar-item button is-block is-info is-large is-fullwidth" v-on:click="login">Login
                   </button>
@@ -102,19 +99,19 @@
 
   export default {
     name: 'App',
-    created(){
+    created() {
       this.authorized = localStorage.getItem('authorized') == 'true'
     },
-    beforeCreate(){
-      auth.onAuthStateChanged(function(user){
-        if(user){
+    beforeCreate() {
+      auth.onAuthStateChanged(function (user) {
+        if (user) {
           // Cache user - an anonymously authenticated firebase.User account
           //  - https://firebase.google.com/docs/reference/js/firebase.User
           this.user = user
           // Bind this instance's 'messages' property to the 'messages/${uid}'
           // Firebase reference via vuefire.js' $bindAsArray() method
           // this.$bindAsArray('messages', db.ref('messages/' + user.uid))
-        }else{
+        } else {
           auth.signInAnonymously().catch(console.error)
         }
         console.log('User', user)
@@ -122,17 +119,16 @@
     },
     data() {
       return {
-        user:{},
+        user: {},
         username: '',
         password: '',
-        errorName: false,
-        errorPass: false,
-        authorized: false
+        error: false,
+        errorMsg: ''
       };
     },
     methods: {
       login: function () {
-        this.clearErrors()
+        this.error = false
         axios.get(this.$endpoint + '/login', {
           params: {
             username: this.username,
@@ -153,24 +149,26 @@
                 localStorage.setItem('authorized', true)
                 break;
               case 404:
-                this.errorName = true
+                this.errorMsg = response.data.responseDesc
+                this.error = true
                 break
               case 201:
-                this.errorPass = true
+                this.errorMsg = response.data.responseDesc
+                this.error = true
                 break
+              default:
+                this.errorMsg = 'Cannot connect to server.'
+                this.error = true
+                break;
             }
           })
           .catch(e => {
             console.log(e)
           })
       },
-      logout: function(){
+      logout: function () {
         this.authorized = false
         localStorage.setItem('authorized', false)
-      },
-      clearErrors: function () {
-        this.errorName = false
-        this.errorPass = false
       }
     }
   }

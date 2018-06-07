@@ -22,6 +22,7 @@
       return {
         messages: {},
         newNotif: {
+          authorization: '',
           message: '',
           title: ''
         }
@@ -44,6 +45,19 @@
         db.ref('messages').push(this.newNotif)
         console.log(messaging)
         messaging.send(this.newNotif)
+        navigator.serviceWorker.register('service-worker.js')
+          .then((registration) => {
+            const messaging = messaging.useServiceWorker(registration)
+            console.log(messaging)
+            messaging.requestPermission().then(function () {
+              console.log('Notification permission granted.')
+              messaging.getToken().then(function (currentToken) {
+                if (currentToken) {
+                  console.log(currentToken)
+                }
+              })
+            })
+          })
       },
       requestMessage: function () {
         messaging.requestPermission().then(function () {
