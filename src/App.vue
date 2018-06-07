@@ -104,7 +104,6 @@
     name: 'App',
     created(){
       this.authorized = localStorage.getItem('authorized') == 'true'
-      console.log(this.authorized)
     },
     beforeCreate(){
       auth.onAuthStateChanged(function(user){
@@ -114,14 +113,12 @@
           this.user = user
           // Bind this instance's 'messages' property to the 'messages/${uid}'
           // Firebase reference via vuefire.js' $bindAsArray() method
-          this.$bindAsArray('messages', firebasedb.ref('messages/' + user.uid))
-          // Note: Child component instances will have access to these
-          // references via this.$root.user and this.$root.messages
+          // this.$bindAsArray('messages', db.ref('messages/' + user.uid))
         }else{
           auth.signInAnonymously().catch(console.error)
         }
         console.log('User', user)
-      })
+      }).bind(this)
     },
     data() {
       return {

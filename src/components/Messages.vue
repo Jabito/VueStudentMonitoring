@@ -42,28 +42,25 @@
     methods: {
       sendNotif: function () {
         db.ref('messages').push(this.newNotif)
+        console.log(messaging)
+        messaging.send(this.newNotif)
       },
       requestMessage: function () {
         messaging.requestPermission().then(function () {
+
           console.log('Notification permission granted.');
           // TODO(developer): Retrieve an Instance ID token for use with FCM.
-          messaging.getToken().then(function (currentToken) {
-            console.log(currentToken)
-            // if(currentToken){
-            //   sendTokenToServer(currentToken)
-            //   updateUIForPushEnabled(currentToken)
-            // }else{
-            //   // Show permission request.
-            //   console.log('No Instance ID token available. Request permission to generate one.');
-            //   // Show permission UI.
-            //   updateUIForPushPermissionRequired();
-            //   setTokenSentToServer(false);
-            // }
-          }).catch(function (err) {
+          messaging.getToken().then(function(currentToken){
+            if(currentToken){
+              console.log('CurrentToken', currentToken)
+            }else{
+              // Show permission request.
+              console.log('No Instance ID token available. Request permission to generate one.');
+              // Show permission UI.
+            }
+          }).catch(function(err) {
             console.log('An error occurred while retrieving token. ', err);
-            // showToken('Error retrieving Instance ID token. ', err);
-            // setTokenSentToServer(false);
-          });
+          })
         }).catch(function (err) {
           console.log('Unable to get permission to notify.', err);
         });
