@@ -13,9 +13,11 @@ import AddUser from '../components/AddUser'
 import ViewStudents from '../components/ViewStudents'
 import ViewSummary from '../components/ViewSummary'
 import GuidanceReport from '../components/GuidanceReport'
+import Vuefire from 'vuefire'
 
 Vue.use(Router)
 Vue.use(Buefy)
+Vue.use(Vuefire)
 
 export default new Router({
   routes: [
