@@ -97,6 +97,7 @@
 
 <script>
   import axios from 'axios'
+  import {db, messaging, auth} from '../firebase-messaging-sw'
   import router from './router'
 
   export default {
@@ -105,8 +106,26 @@
       this.authorized = localStorage.getItem('authorized') == 'true'
       console.log(this.authorized)
     },
+    beforeCreate(){
+      auth.onAuthStateChanged(function(user){
+        if(user){
+          // Cache user - an anonymously authenticated firebase.User account
+          //  - https://firebase.google.com/docs/reference/js/firebase.User
+          this.user = user
+          // Bind this instance's 'messages' property to the 'messages/${uid}'
+          // Firebase reference via vuefire.js' $bindAsArray() method
+          this.$bindAsArray('messages', firebasedb.ref('messages/' + user.uid))
+          // Note: Child component instances will have access to these
+          // references via this.$root.user and this.$root.messages
+        }else{
+          auth.signInAnonymously().catch(console.error)
+        }
+        console.log('User', user)
+      })
+    },
     data() {
       return {
+        user:{},
         username: '',
         password: '',
         errorName: false,

@@ -10,6 +10,8 @@ const firebaseApp = Firebase.initializeApp({
   messagingSenderId: "1021590070325"
 });
 
+export const messaging = Firebase.messaging()
 // Export the database for components to use.
 // If you want to get fancy, use mixins or provide / inject to avoid redundant imports.
-export const db = firebaseApp.database();
+export const db = firebaseApp.database()
+export const auth = firebaseApp.auth()
