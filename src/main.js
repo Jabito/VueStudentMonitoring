@@ -5,12 +5,13 @@ import App from './App'
 import router from './router'
 
 Vue.config.productionTip = false
-Vue.prototype.$endpoint = 'http://localhost:8085/vue'
-Vue.prototype.$authorized = false
+
 Vue.mixin({
   data: function(){
     return {
-      authorized: false
+      authorized: false,
+      user: {},
+      endpoint: 'http://localhost:8085/vue'
     }
   }
 })

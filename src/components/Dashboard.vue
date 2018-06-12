@@ -12,22 +12,26 @@
       <!-- ETO SIMULA NG PAGE -->
 
       <div id="page-wrapper">
-        <div class="row">
-          <div class="col-lg-12">
-            <h1 class="page-header"> Welcome <span> </span> !</h1>
+        <section class="hero">
+          <div class="hero-body">
+            <div class="container">
+              <h1 class="title">
+                Welcome {{name}}
+              </h1>
+              <h2 class="title">Announcements</h2>
+            </div>
           </div>
-          <!-- /.col-lg-12 -->
-        </div>
+        </section>
 
         <!-- /.row -->
 
         <div class="row">
           <div class="col-lg-12">
-            <h3>Announcement</h3>
+
             <ul>
-              <li>Please be advice that the last day of submission is October 10, 2017.</li>
-              <li>Please wear your ID in the Campus.</li>
-              <li>Please secure your Belongings inside the campus.</li>
+              <li>General Assembly is October 10, 2018.</li>
+              <li>Check calendar for school holidays.</li>
+              <li>Prepare for school outing next term.</li>
 
             </ul>
           </div>
@@ -45,7 +49,15 @@
                 <th>Attendance Count</th>
               </tr>
               </thead>
-              <tbody id="tableBody">
+              <tbody>
+              <tr v-for="entry in attendanceLog">
+                <td>
+                  {{entry.date}}
+                </td>
+                <td>
+                  {{entry.attendanceCount}}
+                </td>
+              </tr>
               </tbody>
             </table>
           </div>
@@ -56,14 +68,39 @@
       <!-- /#page-wrapper -->
 
     </div>
-    <input type="text" id="added" />
+    <input type="text" id="added"/>
   </div>
 </template>
 
 <script>
-    export default {
-        name: 'Dashboard'
+  import axios from 'axios'
+
+  export default {
+    name: 'Dashboard',
+    data() {
+      return {
+        name: '',
+        attendanceLog: [],
+        role: '',
+        userId: ''
+      }
+    },
+    methods: {
+      loadAttendance: function () {
+        axios.get(this.endpoint + '/getWeeklyAttendance', {})
+          .then(response => {
+            this.attendanceLog = response.data
+          }).catch(e => {
+          console.log(e)
+        })
+      }
+    },
+    created() {
+      console.log('This.',this)
+      this.name = this.parent.user.username
+      this.loadAttendance()
     }
+  }
 </script>
 
 <style scoped>

@@ -18,49 +18,46 @@
               <div class="column is-2
                                 is-offset-7">
                 <h2>
-                  Logged in as
+                  <span>Logged in as {{name}} </span>
                 </h2>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-
-
-
-<section class="main-content columns is-fullheight">
-
-  <aside class="column is-2 is-narrow-mobile is-fullheight section is-hidden-mobile menu" >
-
-               <ul class="menu-list">
-                 <li> <router-link to="/dashboard">Homepage</router-link></li>
-                 <li> <router-link to="/attendance">Attendance Logs</router-link></li>
-                 <li> <router-link to="/attendance">Messages</router-link></li>
-                 <li> <router-link to="/addStudent">Add Student</router-link></li>
-                 <li> <router-link to="/addGuidance">Add Guidance</router-link></li>
-                 <li> <router-link to="/addParent">Add Parent</router-link></li>
-                 <li> <router-link to="/addUser">Add User</router-link></li>
-                 <li> <router-link to="/viewStudents">View Students</router-link></li>
-                 <li> <router-link to="/guidanceReport">Post Guidance Report</router-link></li>
-                 <li> <router-link to="/viewSummary">View Summary Report</router-link></li>
-                 <li> <router-link to="/logout">Logout</router-link></li>
-               </ul>
-
-  </aside>
-
-  <div class="container column is-10">
-    <div class="section">
-      <router-view/>
-    </div>
-  </div>
-</section>
-
-
-
-
-
-
+      <div class="columns">
+        <div class="column is-one-fifth">
+          <nav class="navbar" role="navigation" aria-label="navigation">
+            <div class="column">
+              <router-link to="/dashboard" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Homepage</strong></p></router-link>
+              <router-link to="/attendance" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Attendance Logs</strong></p></router-link>
+              <router-link to="/messages" class="navbar-item button is-1"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Messages</strong></p></router-link>
+              <router-link to="/addStudent" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Add Student</strong></p></router-link>
+              <router-link to="/addParent" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Add Parent</strong></p></router-link>
+              <router-link to="/addGuidance" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Add Guidance</strong></p></router-link>
+              <router-link to="/addUser" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Add User</strong></p></router-link>
+              <router-link to="/viewStudents" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>View Students</strong></p></router-link>
+              <router-link to="/guidanceReport" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Post Guidance Report</strong></p></router-link>
+              <router-link to="/viewSummary" class="navbar-item button"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>View Summary Report</strong></p></router-link>
+              <button v-on:click="logout" class="navbar-item button is-fullwidth"><i class="fas fa-shield-alt"/>
+                <p style="color: #44F;"><strong>Logout</strong></p></button>
+            </div>
+          </nav>
+        </div>
+        <div class="column is-four-fifths">
+          <router-view/>
+        </div>
+      </div>
     </div>
 
 
@@ -109,35 +106,39 @@
     name: 'App',
     created() {
       this.authorized = localStorage.getItem('authorized') == 'true'
+      if(this.authorized) {
+        this.user = JSON.parse(localStorage.getItem('user'))
+        this.name = this.user.username
+        console.log('this.user', this.user)
+      }
     },
     beforeCreate() {
       auth.onAuthStateChanged(function (user) {
         if (user) {
           // Cache user - an anonymously authenticated firebase.User account
           //  - https://firebase.google.com/docs/reference/js/firebase.User
-          this.user = user
+          this.firebaseUser = user
           // Bind this instance's 'messages' property to the 'messages/${uid}'
           // Firebase reference via vuefire.js' $bindAsArray() method
           // this.$bindAsArray('messages', db.ref('messages/' + user.uid))
         } else {
           auth.signInAnonymously().catch(console.error)
         }
-        console.log('User', user)
       }).bind(this)
     },
     data() {
       return {
-        user: {},
-        username: '',
+        firebaseUser: {},
         password: '',
         error: false,
-        errorMsg: ''
+        errorMsg: '',
+        name: ''
       };
     },
     methods: {
       login: function () {
         this.error = false
-        axios.get(this.$endpoint + '/login', {
+        axios.get(this.endpoint + '/login', {
           params: {
             username: this.username,
             password: this.password
@@ -150,11 +151,11 @@
           .then(response => {
             switch (response.data.responseCode) {
               case "OK":
-                console.log('LOGIN', this)
                 router.push('/dashboard')
-                console.log(this)
                 this.authorized = true
                 localStorage.setItem('authorized', true)
+                console.log(response.data)
+                localStorage.setItem('user', JSON.stringify(response.data.user))
                 break;
               case 404:
                 this.errorMsg = response.data.responseDesc
@@ -177,6 +178,7 @@
       logout: function () {
         this.authorized = false
         localStorage.setItem('authorized', false)
+        localStorage.removeItem('user')
       }
     }
   }
